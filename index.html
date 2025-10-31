@@ -187,6 +187,23 @@
     color: white;
   }
 
+  /* ----------------- FOOTER ----------------- */
+  footer {
+    text-align: center;
+    padding: 40px 0;
+    font-weight: 600;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    background: var(--card-bg);
+    margin-top: 60px;
+  }
+  footer strong {
+    background: linear-gradient(120deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
   /* ----------------- ANIMATIONS ----------------- */
   @keyframes fadeInUp {
     to { opacity: 1; transform: translateY(0); }
@@ -210,7 +227,7 @@
 </head>
 <body>
 <header>
-  <h1>Event Timeline</h1>
+  <h1>Novigi Annual Trip - Event Timeline</h1>
   <button class="theme-toggle" id="themeToggle">🌙</button>
 </header>
 
@@ -304,6 +321,10 @@
     </div>
   </section>
 </main>
+
+<footer>
+  <p>Organized by <strong>Novisphere</strong></p>
+</footer>
 
 <script>
   // Theme toggle
