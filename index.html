@@ -3,337 +3,928 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modern Event Timeline</title>
+<title>Novigi Annual Trip 2024</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
   /* ----------------- THEME VARIABLES ----------------- */
   :root {
-    --bg: #f8fafc;
-    --text: #0f172a;
-    --muted: #64748b;
-    --primary: #6366f1;
-    --secondary: #a855f7;
-    --accent: #ec4899;
-    --card-bg: rgba(255, 255, 255, 0.7);
-    --border: rgba(255, 255, 255, 0.4);
+    --bg-primary: #0a0f1e;
+    --bg-secondary: #111827;
+    --bg-card: rgba(17, 24, 39, 0.6);
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --accent-1: #8b5cf6;
+    --accent-2: #ec4899;
+    --accent-3: #06b6d4;
+    --border: rgba(139, 92, 246, 0.1);
+    --glow: rgba(139, 92, 246, 0.4);
   }
-  [data-theme="dark"] {
-    --bg: #0f172a;
-    --text: #f8fafc;
-    --muted: #94a3b8;
-    --card-bg: rgba(30, 41, 59, 0.6);
-    --border: rgba(255, 255, 255, 0.1);
+  
+  [data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-card: rgba(255, 255, 255, 0.8);
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --border: rgba(139, 92, 246, 0.15);
+    --glow: rgba(139, 92, 246, 0.2);
   }
 
-  /* ----------------- GLOBAL STYLES ----------------- */
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
   body {
-    font-family: 'Inter', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    transition: background 0.4s, color 0.4s;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     overflow-x: hidden;
+    position: relative;
   }
 
+  /* Animated Background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 50%);
+    animation: float 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+  }
+
+  /* ----------------- HEADER ----------------- */
   header {
     position: sticky;
     top: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 22px 10%;
-    backdrop-filter: blur(16px);
-    background: rgba(255,255,255,0.7);
+    padding: 1.5rem 8%;
+    backdrop-filter: blur(20px) saturate(180%);
+    background: var(--bg-card);
     border-bottom: 1px solid var(--border);
-    z-index: 10;
+    z-index: 100;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
-  [data-theme="dark"] header {
-    background: rgba(15,23,42,0.6);
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
+
+  .logo {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 24px var(--glow);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 8px 24px var(--glow); }
+    50% { box-shadow: 0 12px 36px var(--glow); }
+  }
+
   header h1 {
-    font-size: 1.8em;
+    font-size: 1.5rem;
     font-weight: 800;
-    background: linear-gradient(120deg, var(--primary), var(--accent));
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
+    background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    animation: gradient-shift 5s ease infinite;
   }
-  .theme-toggle {
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    cursor: pointer;
-    color: var(--text);
-    transition: transform 0.3s;
-  }
-  .theme-toggle:hover { transform: rotate(20deg); }
 
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .theme-toggle {
+    width: 48px;
+    height: 48px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme-toggle:hover {
+    transform: scale(1.1) rotate(10deg);
+    border-color: var(--accent-1);
+    box-shadow: 0 8px 24px var(--glow);
+  }
+
+  /* ----------------- MAIN CONTAINER ----------------- */
   main {
     display: flex;
     justify-content: center;
-    padding: 80px 10%;
-    gap: 80px;
+    padding: 4rem 8%;
+    gap: 3rem;
     position: relative;
+    z-index: 1;
+    max-width: 1600px;
+    margin: 0 auto;
   }
 
-  /* ----------------- TIMELINE ----------------- */
-  .timeline {
-    position: relative;
-    max-width: 700px;
-    padding-left: 40px;
-  }
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 20px;
-    top: 0;
-    width: 4px;
-    height: 100%;
-    background: linear-gradient(180deg, var(--primary), var(--secondary), var(--accent));
-    border-radius: 8px;
-    opacity: 0.3;
-  }
-
-  /* ----------------- DAY SECTION ----------------- */
-  .day {
-    margin-bottom: 100px;
-  }
-  .day h2 {
-    text-align: center;
-    font-size: 1.6em;
-    font-weight: 700;
-    margin-bottom: 50px;
-    background: linear-gradient(120deg, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: fadeInDown 0.6s ease;
-  }
-
-  /* ----------------- EVENT CARD ----------------- */
-  .event {
-    position: relative;
-    margin-bottom: 70px;
-    opacity: 0;
-    transform: translateY(40px);
-    animation: fadeInUp 0.8s ease forwards;
-  }
-  .event:nth-child(2) { animation-delay: 0.1s; }
-  .event:nth-child(3) { animation-delay: 0.2s; }
-  .event:nth-child(4) { animation-delay: 0.3s; }
-
-  .dot {
-    position: absolute;
-    left: 9px;
-    top: 22px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    border: 3px solid var(--bg);
-    box-shadow: 0 0 12px rgba(99,102,241,0.6);
-    animation: pulse 2s infinite;
-  }
-
-  .event-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 25px 35px;
-    margin-left: 50px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  }
-  .event-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(99,102,241,0.25);
-  }
-
-  .event-time {
-    color: var(--primary);
-    font-size: 0.9em;
-    font-weight: 700;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  .event-title {
-    font-size: 1.4em;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .event-description {
-    color: var(--muted);
-    font-size: 1.05em;
-  }
-
-  /* ----------------- SIDE NAV ----------------- */
-  .side-nav {
+  /* ----------------- TABS ----------------- */
+  .tabs {
     position: sticky;
-    top: 100px;
+    top: 120px;
     height: max-content;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 0.75rem;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px) saturate(180%);
+    padding: 1.5rem;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
   }
-  .side-nav a {
-    text-decoration: none;
-    color: var(--muted);
+
+  .tab-btn {
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    color: var(--text-secondary);
     font-weight: 600;
-    padding: 8px 14px;
-    border-radius: 8px;
-    transition: all 0.3s;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    text-align: left;
   }
-  .side-nav a:hover {
-    background: linear-gradient(120deg, var(--primary), var(--accent));
+
+  .tab-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .tab-btn span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .tab-btn:hover {
+    border-color: var(--accent-1);
+    transform: translateX(4px);
+  }
+
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
     color: white;
+    border-color: transparent;
+    box-shadow: 0 8px 24px var(--glow);
+  }
+
+  .tab-btn.active::before {
+    opacity: 1;
+  }
+
+  /* ----------------- TIMELINE VIEW ----------------- */
+  .content-view {
+    flex: 1;
+    max-width: 900px;
+    animation: fadeIn 0.6s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .timeline-container {
+    position: relative;
+    padding-left: 3rem;
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 1.25rem;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--accent-1), var(--accent-2), var(--accent-3));
+    border-radius: 10px;
+    opacity: 0.3;
+    box-shadow: 0 0 20px var(--glow);
+  }
+
+  .day-section {
+    margin-bottom: 6rem;
+  }
+
+  .day-header {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    animation: slideDown 0.6s ease;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .event-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: slideUp 0.8s ease forwards;
+  }
+
+  .event-item:nth-child(2) { animation-delay: 0.1s; }
+  .event-item:nth-child(3) { animation-delay: 0.2s; }
+  .event-item:nth-child(4) { animation-delay: 0.3s; }
+  .event-item:nth-child(5) { animation-delay: 0.4s; }
+  .event-item:nth-child(6) { animation-delay: 0.5s; }
+
+  @keyframes slideUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .event-dot {
+    position: absolute;
+    left: -1.4rem;
+    top: 1.5rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    border: 3px solid var(--bg-primary);
+    box-shadow: 0 0 20px var(--glow);
+    animation: pulse-dot 2s ease-in-out infinite;
+    z-index: 2;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 20px var(--glow); }
+    50% { transform: scale(1.3); box-shadow: 0 0 30px var(--glow); }
+  }
+
+  .event-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-left: 1rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .event-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+  }
+
+  .event-card:hover {
+    transform: translateY(-8px) translateX(4px);
+    box-shadow: 0 20px 50px rgba(139, 92, 246, 0.3);
+    border-color: var(--accent-1);
+  }
+
+  .event-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .event-time {
+    color: var(--accent-1);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .event-time::before {
+    content: '⏱';
+    font-size: 1rem;
+  }
+
+  .event-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+  }
+
+  .event-description {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* ----------------- ROOMS VIEW ----------------- */
+  .rooms-container {
+    animation: fadeIn 0.6s ease;
+  }
+
+  .rooms-header {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 4rem;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 5s ease infinite;
+  }
+
+  .rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 3rem;
+  }
+
+  .room-section {
+    animation: slideUp 0.8s ease;
+  }
+
+  .section-header {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-primary);
+  }
+
+  .room-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .room-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 16px;
+    padding: 1.75rem;
+    border: 1px solid var(--border);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .room-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    transition: all 0.4s ease;
+  }
+
+  .room-card.green::before { background: linear-gradient(180deg, #10b981, #059669); }
+  .room-card.peach::before { background: linear-gradient(180deg, #f59e0b, #d97706); }
+  .room-card.blue::before { background: linear-gradient(180deg, #3b82f6, #2563eb); }
+  .room-card.purple::before { background: linear-gradient(180deg, #a855f7, #9333ea); }
+
+  .room-card:hover {
+    transform: translateX(8px);
+    box-shadow: 0 12px 48px rgba(139, 92, 246, 0.2);
+    border-color: var(--accent-1);
+  }
+
+  .room-card:hover::before {
+    width: 100%;
+    opacity: 0.1;
+  }
+
+  .room-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    color: var(--text-primary);
+    padding-left: 1rem;
+  }
+
+  .room-members {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-left: 1rem;
+  }
+
+  .member {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    background: rgba(139, 92, 246, 0.06);
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .member::before {
+    content: '👤';
+    font-size: 1rem;
+    opacity: 0.7;
+  }
+
+  .member:hover {
+    background: rgba(139, 92, 246, 0.12);
+    border-color: var(--accent-1);
+    transform: translateX(6px);
+    color: var(--text-primary);
   }
 
   /* ----------------- FOOTER ----------------- */
   footer {
     text-align: center;
-    padding: 40px 0;
-    font-weight: 600;
-    color: var(--muted);
+    padding: 3rem 0;
+    margin-top: 6rem;
     border-top: 1px solid var(--border);
-    backdrop-filter: blur(10px);
-    background: var(--card-bg);
-    margin-top: 60px;
-  }
-  footer strong {
-    background: linear-gradient(120deg, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    position: relative;
+    z-index: 1;
   }
 
-  /* ----------------- ANIMATIONS ----------------- */
-  @keyframes fadeInUp {
-    to { opacity: 1; transform: translateY(0); }
+  footer p {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 1rem;
   }
-  @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes pulse {
-    0%,100% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.4); opacity: 0.2; }
+
+  footer strong {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
   }
 
   /* ----------------- RESPONSIVE ----------------- */
-  @media (max-width: 900px) {
-    main { flex-direction: column; padding: 40px 20px; }
-    .timeline { padding-left: 30px; }
-    .side-nav { flex-direction: row; justify-content: center; position: static; }
+  @media (max-width: 1024px) {
+    main {
+      flex-direction: column;
+      padding: 2rem 5%;
+    }
+    
+    .tabs {
+      position: static;
+      flex-direction: row;
+      justify-content: center;
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      white-space: nowrap;
+    }
+
+    .rooms-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    header {
+      padding: 1rem 5%;
+    }
+
+    header h1 {
+      font-size: 1.2rem;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+    }
+
+    .timeline-container {
+      padding-left: 2rem;
+    }
+
+    .event-card {
+      padding: 1.5rem;
+    }
+
+    .rooms-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .room-card {
+      padding: 1.5rem;
+    }
   }
 </style>
 </head>
 <body>
+
 <header>
-  <h1>Novigi Annual Trip - Event Timeline</h1>
+  <div class="header-content">
+    <div class="logo">🎉</div>
+    <h1>Novigi Annual Trip 2024</h1>
+  </div>
   <button class="theme-toggle" id="themeToggle">🌙</button>
 </header>
 
 <main>
-  <nav class="side-nav">
-    <a href="#day1">Nov 8</a>
-    <a href="#day2">Nov 9</a>
-  </nav>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="timeline">
+      <span>📅 Timeline</span>
+    </button>
+    <button class="tab-btn" data-tab="rooms">
+      <span>🏨 Rooms</span>
+    </button>
+  </div>
 
-  <section class="timeline">
-    <!-- Day 1 -->
-    <div class="day" id="day1">
-      <h2>November 8</h2>
+  <!-- Timeline View -->
+  <div class="content-view" id="timeline-view">
+    <div class="timeline-container">
+      <div class="timeline-line"></div>
 
-      <div class="event">
-        <div class="dot"></div>
-        <div class="event-card">
-          <div class="event-time">9:30 - 10:00 AM</div>
-          <div class="event-title">Leaving from Office 🚗</div>
-          <div class="event-description">Departing from the office for the day's activities.</div>
+      <!-- Day 1 -->
+      <div class="day-section">
+        <h2 class="day-header">November 8, 2024</h2>
+
+        <div class="event-item">
+          <div class="event-dot"></div>
+          <div class="event-card">
+            <div class="event-time">9:30 - 10:00 AM</div>
+            <div class="event-title">🚗 Departure from Office</div>
+            <div class="event-description">The journey begins! Everyone meets at the office for departure.</div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-dot"></div>
+          <div class="event-card">
+            <div class="event-time">12:30 - 1:30 PM</div>
+            <div class="event-title">🍽️ Lunch Break</div>
+            <div class="event-description">Enjoy a delicious meal at Welipenna Service Area on the way.</div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-dot"></div>
+          <div class="event-card">
+            <div class="event-time">3:00 PM</div>
+            <div class="event-title">🏨 Hotel Check-in</div>
+            <div class="event-description">Arrive at the hotel and receive your room assignments. Time to settle in!</div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-dot"></div>
+          <div class="event-card">
+            <div class="event-time">5:00 PM</div>
+            <div class="event-title">👥 Team Gathering</div>
+            <div class="event-description">Meet your colleagues at the open bar for drinks and casual conversation.</div>
+          </div>
+        </div>
+
+        <div class="event-item">
+          <div class="event-dot"></div>
+          <div class="event-card">
+            <div class="event-time">7:00 - 10:00 PM</div>
+            <div class="event-title">🍷 Dinner & Entertainment</div>
+            <div class="event-description">Enjoy a wonderful evening meal together with the entire team.</div>
+          </div>
         </div>
       </div>
 
-      <div class="event">
-        <div class="dot"></div>
-        <div class="event-card">
-          <div class="event-time">12:30 - 1:30 PM</div>
-          <div class="event-title">Lunch Break 🍽️</div>
-          <div class="event-description">Lunch at Welipenna Service Area.</div>
-        </div>
-      </div>
+      <!-- Day 2 -->
+      <div class="day-section">
+        <h2 class="day-header">November 9, 2024</h2>
 
-      <div class="event">
-        <div class="dot"></div>
-        <div class="event-card">
-          <div class="event-time">3:00 PM</div>
-          <div class="event-title">Hotel Check-in 🏨</div>
-          <div class="event-description">Room allocations will be made at this time.</div>
+        <div class="event-item">
+          <div class="event-dot"></div>
+          <div class="event-card">
+            <div class="event-time">7:00 - 10:00 AM</div>
+            <div class="event-title">🥐 Breakfast</div>
+            <div class="event-description">Start your day with a hearty breakfast at the hotel restaurant.</div>
+          </div>
         </div>
-      </div>
 
-      <div class="event">
-        <div class="dot"></div>
-        <div class="event-card">
-          <div class="event-time">5:00 PM</div>
-          <div class="event-title">Team Gathering 👥</div>
-          <div class="event-description">Meet at the open bar for a casual team session.</div>
+        <div class="event-item">
+          <div class="event-dot"></div>
+          <div class="event-card">
+            <div class="event-time">12:00 - 3:00 PM</div>
+            <div class="event-title">🍴 Lunch</div>
+            <div class="event-description">Final meal together before we prepare for the journey back.</div>
+          </div>
         </div>
-      </div>
 
-      <div class="event">
-        <div class="dot"></div>
-        <div class="event-card">
-          <div class="event-time">7:00 - 10:00 PM</div>
-          <div class="event-title">Dinner 🍷</div>
-          <div class="event-description">Evening meal with the team.</div>
+        <div class="event-item">
+          <div class="event-dot"></div>
+          <div class="event-card">
+            <div class="event-time">7:00 PM</div>
+            <div class="event-title">🏢 Return to Office</div>
+            <div class="event-description">Expected arrival back at the office. Safe travels everyone!</div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Day 2 -->
-    <div class="day" id="day2">
-      <h2>November 9</h2>
+  <!-- Rooms View -->
+  <div class="content-view" id="rooms-view" style="display: none;">
+    <div class="rooms-container">
+      <h2 class="rooms-header">Room Allocations</h2>
 
-      <div class="event">
-        <div class="dot"></div>
-        <div class="event-card">
-          <div class="event-time">7:00 - 10:00 AM</div>
-          <div class="event-title">Breakfast 🥐</div>
-          <div class="event-description">Morning meal at the hotel.</div>
+      <div class="rooms-grid">
+        <!-- Girls Section -->
+        <div class="room-section">
+          <h3 class="section-header">👧 Girls</h3>
+          <div class="room-list">
+            <div class="room-card green">
+              <div class="room-title">Triple Room 1</div>
+              <div class="room-members">
+                <div class="member">Thivyani</div>
+                <div class="member">Sasanka</div>
+                <div class="member">Shalini</div>
+              </div>
+            </div>
+
+            <div class="room-card peach">
+              <div class="room-title">Triple Room 2</div>
+              <div class="room-members">
+                <div class="member">Ilmee</div>
+                <div class="member">Amashi</div>
+                <div class="member">Praveena</div>
+              </div>
+            </div>
+
+            <div class="room-card green">
+              <div class="room-title">Triple Room 3</div>
+              <div class="room-members">
+                <div class="member">Roshelle</div>
+                <div class="member">Randini</div>
+                <div class="member">Naduni</div>
+              </div>
+            </div>
+
+            <div class="room-card peach">
+              <div class="room-title">Triple Room 4</div>
+              <div class="room-members">
+                <div class="member">Achini</div>
+                <div class="member">Ransarani</div>
+                <div class="member">Ashana</div>
+              </div>
+            </div>
+
+            <div class="room-card green">
+              <div class="room-title">Triple Room 5</div>
+              <div class="room-members">
+                <div class="member">Sabeena</div>
+                <div class="member">Shamalka</div>
+                <div class="member">Ashika</div>
+              </div>
+            </div>
+
+            <div class="room-card peach">
+              <div class="room-title">Triple Room 6</div>
+              <div class="room-members">
+                <div class="member">GG</div>
+                <div class="member">Geethmi</div>
+                <div class="member">Poorni</div>
+              </div>
+            </div>
+
+            <div class="room-card green">
+              <div class="room-title">Triple Room 7</div>
+              <div class="room-members">
+                <div class="member">Nuwandi</div>
+                <div class="member">Nuwangi</div>
+                <div class="member">Vinudi</div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="event">
-        <div class="dot"></div>
-        <div class="event-card">
-          <div class="event-time">12:00 - 3:00 PM</div>
-          <div class="event-title">Lunch 🍴</div>
-          <div class="event-description">Afternoon meal before departure.</div>
-        </div>
-      </div>
+        <!-- Boys Section -->
+        <div class="room-section">
+          <h3 class="section-header">👦 Boys</h3>
+          <div class="room-list">
+            <div class="room-card blue">
+              <div class="room-title">Triple Room 1</div>
+              <div class="room-members">
+                <div class="member">Mihiranga</div>
+                <div class="member">Lahiru</div>
+                <div class="member">Nisala</div>
+              </div>
+            </div>
 
-      <div class="event">
-        <div class="dot"></div>
-        <div class="event-card">
-          <div class="event-time">7:00 PM</div>
-          <div class="event-title">Return to Office 🏢</div>
-          <div class="event-description">Expected arrival back at the office.</div>
+            <div class="room-card purple">
+              <div class="room-title">Triple Room 2</div>
+              <div class="room-members">
+                <div class="member">Yashira</div>
+                <div class="member">Prabhath</div>
+                <div class="member">Indika</div>
+              </div>
+            </div>
+
+            <div class="room-card blue">
+              <div class="room-title">Triple Room 3</div>
+              <div class="room-members">
+                <div class="member">Kalpana</div>
+                <div class="member">Asanka</div>
+                <div class="member">Manoj</div>
+              </div>
+            </div>
+
+            <div class="room-card purple">
+              <div class="room-title">Triple Room 4</div>
+              <div class="room-members">
+                <div class="member">Thenuka</div>
+                <div class="member">Rajitha</div>
+                <div class="member">Wageesha</div>
+              </div>
+            </div>
+
+            <div class="room-card blue">
+              <div class="room-title">Triple Room 5</div>
+              <div class="room-members">
+                <div class="member">Isuru</div>
+                <div class="member">Charitha</div>
+                <div class="member">Anuk</div>
+              </div>
+            </div>
+
+            <div class="room-card purple">
+              <div class="room-title">Triple Room 6</div>
+              <div class="room-members">
+                <div class="member">Tishan</div>
+                <div class="member">Yavindu</div>
+                <div class="member">Thaveesha</div>
+              </div>
+            </div>
+
+            <div class="room-card blue">
+              <div class="room-title">Triple Room 7</div>
+              <div class="room-members">
+                <div class="member">Tishan</div>
+                <div class="member">Yavindu</div>
+                <div class="member">Thaveesha</div>
+              </div>
+            </div>
+
+            <div class="room-card purple">
+              <div class="room-title">Triple Room 8</div>
+              <div class="room-members">
+                <div class="member">Akshayan</div>
+                <div class="member">Thilanka</div>
+                <div class="member">Pradeep</div>
+              </div>
+            </div>
+
+            <div class="room-card blue">
+              <div class="room-title">Double Room 1</div>
+              <div class="room-members">
+                <div class="member">Nusry</div>
+                <div class="member">Ilthezam</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </main>
 
 <footer>
-  <p>Organized by <strong>Novisphere</strong></p>
+  <p>Organized with ❤️ by <strong>Novisphere</strong></p>
 </footer>
 
 <script>
   // Theme toggle
-  const toggle = document.getElementById('themeToggle');
-  toggle.addEventListener('click', () => {
-    const isDark = document.documentElement.dataset.theme === 'dark';
-    document.documentElement.dataset.theme = isDark ? 'light' : 'dark';
-    toggle.textContent = isDark ? '🌙' : '☀️';
+  const themeToggle = document.getElementById('themeToggle');
+  const html = document.documentElement;
+
+  // Check for saved theme preference or default to 'dark'
+  const currentTheme = localStorage.getItem('theme') || 'dark';
+  html.setAttribute('data-theme', currentTheme);
+  themeToggle.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+
+  themeToggle.addEventListener('click', () => {
+    const theme = html.getAttribute('data-theme');
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+  });
+
+  // Tab switching with smooth transitions
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const timelineView = document.getElementById('timeline-view');
+  const roomsView = document.getElementById('rooms-view');
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      
+      // Update active states
+      tabButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Smooth view switching
+      if (tab === 'timeline') {
+        roomsView.style.display = 'none';
+        timelineView.style.display = 'block';
+        timelineView.style.animation = 'fadeIn 0.6s ease';
+      } else {
+        timelineView.style.display = 'none';
+        roomsView.style.display = 'block';
+        roomsView.style.animation = 'fadeIn 0.6s ease';
+      }
+    });
+  });
+
+  // Intersection Observer for scroll animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+
+  // Observe all event items and room cards
+  document.querySelectorAll('.event-item, .room-card').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Add smooth scroll behavior
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
   });
 </script>
-</body>
-</html>
