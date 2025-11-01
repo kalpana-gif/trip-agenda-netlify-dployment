@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Novigi Annual Trip 2025</title>
+<title>Novigi Annual Trip 2024</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
@@ -572,6 +572,130 @@
       padding: 1.5rem;
     }
   }
+
+  /* ----------------- SEARCH BAR ----------------- */
+  .search-container {
+    margin-bottom: 3rem;
+    animation: slideDown 0.6s ease;
+  }
+
+  .search-wrapper {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1.5rem;
+    font-size: 1.3rem;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 1.25rem 3.5rem 1.25rem 4rem;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    font-size: 1rem;
+    color: var(--text-primary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .search-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--accent-1);
+    box-shadow: 0 8px 32px var(--glow);
+    transform: translateY(-2px);
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 1rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .search-clear:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: scale(1.1);
+  }
+
+  .search-result {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    min-height: 30px;
+  }
+
+  .result-card {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    padding: 1.5rem 2rem;
+    border-radius: 16px;
+    color: white;
+    font-weight: 600;
+    animation: slideDown 0.4s ease;
+    box-shadow: 0 12px 32px var(--glow);
+  }
+
+  .result-card .room-info {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .result-card .roommates-info {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin-top: 0.75rem;
+  }
+
+  .no-result {
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  .room-card.highlight {
+    border-color: var(--accent-1);
+    box-shadow: 0 0 0 3px var(--glow);
+    animation: highlight-pulse 1.5s ease-in-out 3;
+  }
+
+  @keyframes highlight-pulse {
+    0%, 100% { box-shadow: 0 0 0 3px var(--glow); }
+    50% { box-shadow: 0 0 0 6px var(--glow), 0 12px 48px var(--glow); }
+  }
+
+  .member.highlight {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    color: white;
+    font-weight: 700;
+    animation: highlight-pulse 1.5s ease-in-out 3;
+  }
 </style>
 </head>
 <body>
@@ -579,7 +703,7 @@
 <header>
   <div class="header-content">
     <div class="logo">🎉</div>
-    <h1>Novigi Annual Trip 2025</h1>
+    <h1>Novigi Annual Trip 2024</h1>
   </div>
   <button class="theme-toggle" id="themeToggle">🌙</button>
 </header>
@@ -601,7 +725,7 @@
 
       <!-- Day 1 -->
       <div class="day-section">
-        <h2 class="day-header">November 8, 2025</h2>
+        <h2 class="day-header">November 8, 2024</h2>
 
         <div class="event-item">
           <div class="event-dot"></div>
@@ -651,7 +775,7 @@
 
       <!-- Day 2 -->
       <div class="day-section">
-        <h2 class="day-header">November 9, 2025</h2>
+        <h2 class="day-header">November 9, 2024</h2>
 
         <div class="event-item">
           <div class="event-dot"></div>
@@ -687,6 +811,21 @@
   <div class="content-view" id="rooms-view" style="display: none;">
     <div class="rooms-container">
       <h2 class="rooms-header">Room Allocations</h2>
+      
+      <!-- Search Bar -->
+      <div class="search-container">
+        <div class="search-wrapper">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            id="roomSearch" 
+            class="search-input" 
+            placeholder="Search for your name to find your room..."
+          >
+          <button class="search-clear" id="clearSearch" style="display: none;">✕</button>
+        </div>
+        <div class="search-result" id="searchResult"></div>
+      </div>
 
       <div class="rooms-grid">
         <!-- Girls Section -->
@@ -925,6 +1064,159 @@
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
+    });
+  });
+
+  // Room Search Functionality
+  const roomSearch = document.getElementById('roomSearch');
+  const searchResult = document.getElementById('searchResult');
+  const clearSearch = document.getElementById('clearSearch');
+
+  // Room data structure
+  const roomData = {
+    'Girls': [
+      { room: 'Triple Room 1', members: ['Thivyani', 'Sasanka', 'Shalini'], color: 'green' },
+      { room: 'Triple Room 2', members: ['Ilmee', 'Amashi', 'Praveena'], color: 'peach' },
+      { room: 'Triple Room 3', members: ['Roshelle', 'Randini', 'Naduni'], color: 'green' },
+      { room: 'Triple Room 4', members: ['Achini', 'Ransarani', 'Ashana'], color: 'peach' },
+      { room: 'Triple Room 5', members: ['Sabeena', 'Shamalka', 'Ashika'], color: 'green' },
+      { room: 'Triple Room 6', members: ['GG', 'Geethmi', 'Poorni'], color: 'peach' },
+      { room: 'Triple Room 7', members: ['Nuwandi', 'Nuwangi', 'Vinudi'], color: 'green' }
+    ],
+    'Boys': [
+      { room: 'Triple Room 1', members: ['Mihiranga', 'Lahiru', 'Nisala'], color: 'blue' },
+      { room: 'Triple Room 2', members: ['Yashira', 'Prabhath', 'Indika'], color: 'purple' },
+      { room: 'Triple Room 3', members: ['Kalpana', 'Asanka', 'Manoj'], color: 'blue' },
+      { room: 'Triple Room 4', members: ['Thenuka', 'Rajitha', 'Wageesha'], color: 'purple' },
+      { room: 'Triple Room 5', members: ['Isuru', 'Charitha', 'Anuk'], color: 'blue' },
+      { room: 'Triple Room 6', members: ['Tishan', 'Yavindu', 'Thaveesha'], color: 'purple' },
+      { room: 'Triple Room 7', members: ['Tishan', 'Yavindu', 'Thaveesha'], color: 'blue' },
+      { room: 'Triple Room 8', members: ['Akshayan', 'Thilanka', 'Pradeep'], color: 'purple' },
+      { room: 'Double Room 1', members: ['Nusry', 'Ilthezam'], color: 'blue' }
+    ]
+  };
+
+  function searchRoom(query) {
+    if (!query || query.trim() === '') {
+      searchResult.innerHTML = '';
+      clearAllHighlights();
+      clearSearch.style.display = 'none';
+      return;
+    }
+
+    clearSearch.style.display = 'flex';
+    const searchTerm = query.toLowerCase().trim();
+    let found = null;
+    let section = '';
+
+    // Search through all rooms
+    for (const [sectionName, rooms] of Object.entries(roomData)) {
+      for (const roomInfo of rooms) {
+        const memberFound = roomInfo.members.find(member => 
+          member.toLowerCase().includes(searchTerm)
+        );
+        if (memberFound) {
+          found = { ...roomInfo, searchedName: memberFound };
+          section = sectionName;
+          break;
+        }
+      }
+      if (found) break;
+    }
+
+    // Clear previous highlights
+    clearAllHighlights();
+
+    if (found) {
+      const roommates = found.members.filter(m => m !== found.searchedName).join(', ');
+      searchResult.innerHTML = `
+        <div class="result-card">
+          <div class="room-info">🎉 Found! ${section} - ${found.room}</div>
+          <div>You're sharing with: ${roommates}</div>
+        </div>
+      `;
+
+      // Highlight the room card and member
+      highlightRoom(found, section);
+
+      // Scroll to the room
+      setTimeout(() => {
+        const roomCards = document.querySelectorAll('.room-card');
+        roomCards.forEach(card => {
+          if (card.classList.contains('highlight')) {
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        });
+      }, 100);
+    } else {
+      searchResult.innerHTML = `<div class="no-result">No room found for "${query}". Try searching with a different name.</div>`;
+    }
+  }
+
+  function highlightRoom(roomInfo, section) {
+    const roomCards = document.querySelectorAll('.room-card');
+    const sectionHeaders = document.querySelectorAll('.section-header');
+    
+    let sectionIndex = section === 'Girls' ? 0 : 1;
+    let roomIndex = 0;
+
+    // Find the correct room based on section and room data
+    for (const [secName, rooms] of Object.entries(roomData)) {
+      if (secName === section) {
+        roomIndex = rooms.findIndex(r => 
+          r.room === roomInfo.room && 
+          JSON.stringify(r.members) === JSON.stringify(roomInfo.members)
+        );
+        break;
+      }
+    }
+
+    // Calculate the actual card index in the DOM
+    const girlsRoomCount = roomData['Girls'].length;
+    const actualCardIndex = section === 'Girls' ? roomIndex : girlsRoomCount + roomIndex;
+
+    if (roomCards[actualCardIndex]) {
+      roomCards[actualCardIndex].classList.add('highlight');
+      
+      // Highlight the specific member
+      const members = roomCards[actualCardIndex].querySelectorAll('.member');
+      members.forEach(member => {
+        if (member.textContent.toLowerCase().includes(roomInfo.searchedName.toLowerCase())) {
+          member.classList.add('highlight');
+        }
+      });
+    }
+  }
+
+  function clearAllHighlights() {
+    document.querySelectorAll('.room-card').forEach(card => {
+      card.classList.remove('highlight');
+    });
+    document.querySelectorAll('.member').forEach(member => {
+      member.classList.remove('highlight');
+    });
+  }
+
+  // Event listeners for search
+  roomSearch.addEventListener('input', (e) => {
+    searchRoom(e.target.value);
+  });
+
+  clearSearch.addEventListener('click', () => {
+    roomSearch.value = '';
+    searchResult.innerHTML = '';
+    clearAllHighlights();
+    clearSearch.style.display = 'none';
+    roomSearch.focus();
+  });
+
+  // Clear search when switching tabs
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      roomSearch.value = '';
+      searchResult.innerHTML = '';
+      clearAllHighlights();
+      clearSearch.style.display = 'none';
     });
   });
 </script>
